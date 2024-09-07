@@ -22,10 +22,16 @@ namespace StudyGardenAPI
                 app.UseSwaggerUI();
             }
 
+            
+
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
 
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers(); // Убедитесь, что маршруты правильно настроены
+            });
 
             app.MapControllers();
 
