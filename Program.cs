@@ -28,10 +28,6 @@ namespace StudyGardenAPI
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers(); // Убедитесь, что маршруты правильно настроены
-            });
 
             app.MapControllers();
 
