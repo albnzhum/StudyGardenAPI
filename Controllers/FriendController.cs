@@ -1,9 +1,11 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using StudyGarden.Common;
 using StudyGarden.Entities;
+using StudyGarden.Hub;
 
 namespace StudyGarden.Controllers;
 
@@ -12,10 +14,12 @@ namespace StudyGarden.Controllers;
 public class FriendController : ControllerBase
 {
     private readonly AppDbContext _context;
+    private readonly IHubContext<FriendHub> _hubContext;
 
-    public FriendController(AppDbContext context)
+    public FriendController(AppDbContext context, IHubContext<FriendHub> hubContext)
     {
         _context = context;
+        _hubContext = hubContext;
     }
 
     [HttpGet("GetAllAcceptedFriends")]
@@ -78,6 +82,10 @@ public class FriendController : ControllerBase
 
         _context.Friend.Update(requestedFriend);
         await _context.SaveChangesAsync();
+        
+        await _hubContext.Clients.User(id.ToString()).SendAsync("ReceiveFriendRequestAccepted", "Your friend request has been accepted!");
+
+        
         return NoContent();
     }
     
@@ -102,6 +110,9 @@ public class FriendController : ControllerBase
 
         _context.Friend.Update(requestedFriend);
         await _context.SaveChangesAsync();
+        
+        await _hubContext.Clients.User(id.ToString()).SendAsync("ReceiveFriendRequestDecline", "Your friend request has been accepted!");
+        
         return NoContent();
     }
 }

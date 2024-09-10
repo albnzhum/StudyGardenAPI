@@ -2,7 +2,7 @@
 
 namespace StudyGarden.Hub;
 
-public class TaskHub : Microsoft.AspNetCore.SignalR.Hub
+public class GardenHub : Microsoft.AspNetCore.SignalR.Hub
 {
     public async Task NotifyGardenUpdate(int friendUserID)
     {

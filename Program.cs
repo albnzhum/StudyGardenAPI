@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using StudyGarden.Common;
 using StudyGarden.Entities;
+using StudyGarden.Hub;
 
 namespace StudyGarden
 {
@@ -55,6 +56,9 @@ namespace StudyGarden
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
+            
+            app.MapHub<GardenHub>("/garden"); 
+            app.MapHub<FriendHub>("/friend"); 
             
             app.UseCors(builder => builder.AllowAnyOrigin());
 

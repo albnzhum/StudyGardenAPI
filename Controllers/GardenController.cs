@@ -1,9 +1,11 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using StudyGarden.Common;
 using StudyGarden.Entities;
+using StudyGarden.Hub;
 
 namespace StudyGarden.Controllers;
 
@@ -12,19 +14,25 @@ namespace StudyGarden.Controllers;
 public class GardenController : ControllerBase
 {
     private readonly AppDbContext _context;
-
-    public GardenController(AppDbContext context)
+    private readonly IHubContext<GardenHub> _hubContext;  // Внедряем IHubContext
+    
+    public GardenController(AppDbContext context, IHubContext<GardenHub> hubContext)
     {
         _context = context;
+        _hubContext = hubContext;
     }
-
-    [Authorize(Policy = "IsOwner")]
+    
     [HttpGet("ViewFriendGarden/{id}")]
     public async Task<IActionResult> ViewFriendGarden(int id)
     {
         var garden = await _context.Garden
             .Where(g => g.UserID == id)
             .ToListAsync();
+        
+        if (garden == null)
+        {
+            return NotFound("Garden not found for the specified user.");
+        }
 
         return Ok(garden);
     }
@@ -41,6 +49,7 @@ public class GardenController : ControllerBase
         return Ok(garden);
     }
 
+    [Authorize(Policy = "IsOwner")]
     [HttpPost("AddPlantToGarden")]
     public async Task<IActionResult> AddPlantToGarden([FromBody] Garden garden)
     {
@@ -59,6 +68,8 @@ public class GardenController : ControllerBase
 
         _context.Garden.Add(newGarden);
         await _context.SaveChangesAsync();
+        
+        await _hubContext.Clients.Group(userID.ToString()).SendAsync("ReceiveGardenUpdate", userID);
 
         return Ok(new { message = "Plant added successfully" });
     }
@@ -87,6 +98,8 @@ public class GardenController : ControllerBase
         _context.Garden.Update(existingGarden);
         await _context.SaveChangesAsync();
         
+        await _hubContext.Clients.Group(existingGarden.UserID.ToString()).SendAsync("ReceiveGardenUpdate", existingGarden);
+        
         return NoContent();
     }
 
@@ -109,6 +122,9 @@ public class GardenController : ControllerBase
         }
 
         await _context.SaveChangesAsync();
+        
+        await _hubContext.Clients.Group(existingGarden.UserID.ToString()).SendAsync("ReceiveGardenUpdate", existingGarden);
+        
         return NoContent();
     }
     
