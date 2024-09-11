@@ -12,7 +12,7 @@
 # https://github.com/dotnet/dotnet-docker/blob/main/samples/README.md
 
 # Create a stage for building the application.
-FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
+FROM --platform=linux/amd64 mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
 
 COPY . /source
 
@@ -20,7 +20,7 @@ WORKDIR /source
 
 # This is the architecture you’re building for, which is passed in by the builder.
 # Placing it here allows the previous steps to be cached across architectures.
-ARG TARGETARCH
+ARG TARGETARCH=amd64
 
 # Build the application.
 # Leverage a cache mount to /root/.nuget/packages so that subsequent builds don't have to re-download packages.
