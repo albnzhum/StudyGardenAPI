@@ -82,6 +82,68 @@ namespace StudyGarden.Controllers
             return Ok(user);
         }
 
+        [HttpPost("GetUserID")]
+        public async Task<IActionResult> GetUserID([FromBody] LoginModel model)
+        {
+            var user = await _context.User.FirstOrDefaultAsync(u => u.Username == model.Username);
+            if (user != null && PasswordHasher.VerifyPassword(model.Password, user.HashedPassword))
+            {
+                var id = user.ID;
+                return Ok(new { id });
+            }
+            return Unauthorized();
+        }
+        
+        [HttpGet("CheckToken")]
+        public IActionResult CheckToken([FromHeader] string token)
+        {
+            if (string.IsNullOrEmpty(token))
+            {
+                return BadRequest(new { Message = "Токен не предоставлен" });
+            }
+
+            var tokenHandler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
+            var validationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("nVc0GHPlKcPpMnJE4GHxN6NsvF4oyKSy")), // Замените на ваш ключ
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ClockSkew = TimeSpan.Zero // Для уменьшения возможного дрейфа времени
+            };
+
+            try
+            {
+                // Проверяем и валидируем токен
+                var principal = tokenHandler.ValidateToken(token, validationParameters, out var validatedToken);
+
+                var identity = principal.Identity as System.Security.Claims.ClaimsIdentity;
+                if (identity != null)
+                {
+                    var userClaims = identity.Claims;
+
+                    var userId = userClaims.First(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+                    if (!string.IsNullOrEmpty(userId))
+                    {
+                        return Ok(new
+                        {
+                            Message = $"Токен действителен + {userId}",
+                            UserId = userId,
+                        });
+                    }
+                }
+            }
+            catch (SecurityTokenException)
+            {
+                // Токен недействителен
+                return Unauthorized(new { Message = "Токен недействителен или истек" });
+            }
+
+            return Unauthorized(new { Message = "Токен недействителен или истек" });
+        }
+
+
         private string GenerateJwtToken(User user)
         {
             var claims = new[]
@@ -90,6 +152,8 @@ namespace StudyGarden.Controllers
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.NameIdentifier, user.ID.ToString())
             };
+            
+            Console.WriteLine("UserID " + user.ID.ToString());
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"] ?? throw new ArgumentNullException("Jwt:Key")));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

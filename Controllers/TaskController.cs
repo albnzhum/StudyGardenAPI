@@ -18,10 +18,8 @@ public class TaskController : ControllerBase
     }
     
     [HttpGet("GetCurrentUserTasks")]
-    public async Task<IActionResult> GetTasks()
+    public async Task<IActionResult> GetTasks(int userId)
     {
-        var userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        
         var tasks = await _context.Task
             .Where(t => t.UserID == userId)
             .ToListAsync();
@@ -29,10 +27,8 @@ public class TaskController : ControllerBase
     }
     
     [HttpGet("GetTaskByID/{id}")]
-    public async Task<IActionResult> GetTaskByID(int id)
+    public async Task<IActionResult> GetTaskByID(int userId, int id)
     {
-        var userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
-
         var task = await _context.Task
             .FirstOrDefaultAsync(c => c.ID == id && c.UserID == userId);
         
@@ -45,20 +41,15 @@ public class TaskController : ControllerBase
     }
     
     [HttpPost("AddNewTask")]
-    public async Task<IActionResult> CreateTask([FromBody] Task task)
+    public async Task<IActionResult> CreateTask(int userId, [FromBody] Task task)
     {
-        var userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        
         var newTask = new Task
         {
             UserID = userId,
             Title = task.Title,
             Description = task.Description,
-            DueDate = task.DueDate,
             CategoryID = task.CategoryID,
             PlantID = task.PlantID,
-            CreatedDate = DateTime.Today,
-            Status = task.Status,
             Priority = task.Priority
         };
 

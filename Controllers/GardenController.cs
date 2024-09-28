@@ -127,6 +127,4 @@ public class GardenController : ControllerBase
         
         return NoContent();
     }
-    
-    //TODO: настройка signalR для реал тайм обновления, добавление хаба + подписка на изменения
 }
