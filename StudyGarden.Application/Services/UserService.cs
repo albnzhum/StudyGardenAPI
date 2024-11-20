@@ -53,9 +53,9 @@ public class UserService(IPasswordHasher passwordHasher,
         return await _usersRepository.Create(user);
     }
 
-    public async Task<int> UpdateUser(int id, string login, string password)
+    public async Task<int> UpdateUser(User user)
     {
-        return await _usersRepository.Update(id, login, password);
+        return await _usersRepository.Update(user);
     }
     
     public async Task<int> DeleteUser(int id)

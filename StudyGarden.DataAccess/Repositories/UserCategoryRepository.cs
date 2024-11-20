@@ -4,10 +4,15 @@ using StudyGarden.Core.Models;
 
 namespace StudyGarden.DataAccess.Repositories;
 
-public class UserCategoryRepository(StudyGardenDbContext context) : IRepository<UserCategory>
+public class UserCategoryRepository(StudyGardenDbContext context) : IUserCategoryRepository
 {
     private readonly StudyGardenDbContext _context = context;
     
+    /// <summary>
+    /// Создание сущности UserCategory и добавление в базу данных
+    /// </summary>
+    /// <param name="category"></param>
+    /// <returns></returns>
     public async Task<int> Create(UserCategory category)
     {
         try
@@ -26,6 +31,11 @@ public class UserCategoryRepository(StudyGardenDbContext context) : IRepository<
         }
     }
 
+    /// <summary>
+    /// Обновление существующей сущности UserCategory
+    /// </summary>
+    /// <param name="category"></param>
+    /// <returns></returns>
     public async Task<int> Update(UserCategory category)
     {
         await _context.UserCategory
@@ -36,6 +46,23 @@ public class UserCategoryRepository(StudyGardenDbContext context) : IRepository<
         return category.ID;
     }
 
+    /// <summary>
+    /// Получение всех сущностей UserCategory с указанным PlantTypeID
+    /// </summary>
+    /// <param name="typeId"></param>
+    /// <returns></returns>
+    public async Task<List<UserCategory>> GetAllByType(int typeId)
+    {
+        return await _context.UserCategory
+            .Where(uc => uc.PlantTypeID == typeId)
+            .ToListAsync();
+    }
+
+    /// <summary>
+    /// Поиск сущности UserCategory по ID и удаление из базы данных
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     public async Task<int> Delete(int id)
     {
         try
@@ -53,6 +80,11 @@ public class UserCategoryRepository(StudyGardenDbContext context) : IRepository<
         }
     }
 
+    /// <summary>
+    /// Получение всех сущностей UserCategory с указанным UserID
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns></returns>
     public async Task<List<UserCategory>> GetAll(int userId)
     {
         return await _context.UserCategory
@@ -61,6 +93,12 @@ public class UserCategoryRepository(StudyGardenDbContext context) : IRepository<
             .ToListAsync();
     }
 
+    /// <summary>
+    /// Поиск и получение сущности UserCategory по ID
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
     public async Task<UserCategory> Get(int id)
     {
         return await _context.UserCategory

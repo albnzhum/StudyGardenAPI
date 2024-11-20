@@ -1,4 +1,7 @@
-﻿namespace StudyGarden.Application.Interfaces;
+﻿using StudyGarden.Core.Abstractions;
+using StudyGarden.Core.Models;
+
+namespace StudyGarden.Application.Interfaces;
 
 public interface IUserAchievementService
 {

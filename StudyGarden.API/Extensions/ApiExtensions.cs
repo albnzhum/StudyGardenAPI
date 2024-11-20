@@ -26,28 +26,28 @@ public static class ApiExtensions
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<UserService>();
             
-        services.AddScoped<IRepository<Achievement>, AchievementRepository>();
+        services.AddScoped<IAchievementRepository, AchievementRepository>();
         services.AddScoped<AchievementService>();
             
-        services.AddScoped<IRepository<UserAchievement>, UserAchievementRepository>();
+        services.AddScoped<IUserAchievementRepository, UserAchievementRepository>();
         services.AddScoped<UserAchievementService>();
             
         services.AddScoped<IRepository<Plant>, PlantRepository>();
         services.AddScoped<PlantService>();
             
-        services.AddScoped<PlantTypeRepository>();
+        services.AddScoped<IPlantTypeRepository, PlantTypeRepository>();
         services.AddScoped<PlantTypeService>();
             
-        services.AddScoped<IRepository<Task>, TaskRepository>();
+        services.AddScoped<ITaskRepository, TaskRepository>();
         services.AddScoped<TaskService>();
             
-        services.AddScoped<IRepository<UserCategory>, UserCategoryRepository>();
+        services.AddScoped<IUserCategoryRepository, UserCategoryRepository>();
         services.AddScoped<UserCategoryService>();
             
-        services.AddScoped<IRepository<Garden>, GardenRepository>();
+        services.AddScoped<IGardenRepository, GardenRepository>();
         services.AddScoped<GardenService>();
             
-        services.AddScoped<IRepository<Friend>, FriendRepository>();
+        services.AddScoped<IFriendRepository, FriendRepository>();
         services.AddScoped<FriendService>();
     }
     

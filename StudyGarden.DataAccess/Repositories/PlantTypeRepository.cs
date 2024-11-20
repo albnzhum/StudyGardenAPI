@@ -4,10 +4,15 @@ using StudyGarden.Core.Models;
 
 namespace StudyGarden.DataAccess.Repositories;
 
-public class PlantTypeRepository(StudyGardenDbContext context) : ICreateRepository<PlantType>, IDeleteRepository<PlantType>, IUpdateRepository<PlantType>
+public class PlantTypeRepository(StudyGardenDbContext context) : IPlantTypeRepository
 {
     private readonly StudyGardenDbContext _context = context;
     
+    /// <summary>
+    /// Создание сущности PlantType и добавление ее в базу данных
+    /// </summary>
+    /// <param name="plantType"></param>
+    /// <returns></returns>
     public async Task<int> Create(PlantType plantType)
     {
         try
@@ -26,6 +31,11 @@ public class PlantTypeRepository(StudyGardenDbContext context) : ICreateReposito
         }
     }
 
+    /// <summary>
+    /// Поиск существующей сущности PlantType по ID и удаление из базы данных
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     public async Task<int> Delete(int id)
     {
         try
@@ -43,20 +53,36 @@ public class PlantTypeRepository(StudyGardenDbContext context) : ICreateReposito
         }
     }
 
-    public async Task<List<PlantType>> GetAll()
+    /// <summary>
+    /// Получение всех сущностей PlantType
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns></returns>
+    public async Task<List<PlantType>> GetAll(int userId)
     {
         return await _context.PlantsType
             .AsNoTracking()
             .ToListAsync();
     }
 
-    public async Task<PlantType> GetById(int id)
+    /// <summary>
+    /// Поиск и получение сущности PlantType по ID
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    public async Task<PlantType> Get(int id)
     {
         return await _context.PlantsType
             .AsNoTracking()
             .FirstOrDefaultAsync(pt => pt.ID == id) ?? throw new InvalidOperationException();
     }
 
+    /// <summary>
+    /// Поиск и обновление сущности PlantType
+    /// </summary>
+    /// <param name="plantType"></param>
+    /// <returns></returns>
     public async Task<int> Update(PlantType plantType)
     {
         await _context.PlantsType

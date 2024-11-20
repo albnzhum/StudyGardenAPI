@@ -4,10 +4,15 @@ using StudyGarden.Core.Models;
 
 namespace StudyGarden.DataAccess.Repositories;
 
-public class PlantRepository(StudyGardenDbContext context) : IRepository<Plant>
+public class PlantRepository(StudyGardenDbContext context) : IPlantRepository
 {
     private readonly StudyGardenDbContext _context = context;
     
+    /// <summary>
+    /// Создание сущности Plant и добавление ее в базу данных
+    /// </summary>
+    /// <param name="plant"></param>
+    /// <returns></returns>
     public async Task<int> Create(Plant plant)
     {
         try
@@ -26,6 +31,11 @@ public class PlantRepository(StudyGardenDbContext context) : IRepository<Plant>
         }
     }
 
+    /// <summary>
+    /// Обновление существующей сущности Plant
+    /// </summary>
+    /// <param name="plant"></param>
+    /// <returns></returns>
     public async Task<int> Update(Plant plant)
     {
         await _context.Plants
@@ -38,6 +48,11 @@ public class PlantRepository(StudyGardenDbContext context) : IRepository<Plant>
         return plant.ID;
     }
 
+    /// <summary>
+    /// Поиск сущности Plant по ID и удаление из базы данных
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     public async Task<int> Delete(int id)
     {
         try
@@ -55,6 +70,11 @@ public class PlantRepository(StudyGardenDbContext context) : IRepository<Plant>
         }
     }
 
+    /// <summary>
+    /// Получение всех сущностей Plant
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns></returns>
     public async Task<List<Plant>> GetAll(int userId)
     {
         return await _context.Plants
@@ -62,6 +82,25 @@ public class PlantRepository(StudyGardenDbContext context) : IRepository<Plant>
             .ToListAsync();
     }
 
+    /// <summary>
+    /// Получение всех сущностей Plant с указанным PlantTypeID
+    /// </summary>
+    /// <param name="categoryId"></param>
+    /// <returns></returns>
+    public async Task<List<Plant>> GetPlantsByPlantTypeID(int categoryId)
+    {
+        return await _context.Plants
+            .AsNoTracking()
+            .Where(p => p.PlantTypeID == categoryId)
+            .ToListAsync();
+    }
+
+    /// <summary>
+    /// Получение сущности Plant по ID
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
     public async Task<Plant> Get(int id)
     {
         return await _context.Plants

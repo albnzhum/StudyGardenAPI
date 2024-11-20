@@ -4,10 +4,15 @@ using StudyGarden.Core.Models;
 
 namespace StudyGarden.DataAccess.Repositories;
 
-public class UserAchievementRepository(StudyGardenDbContext context) : IRepository<UserAchievement>
+public class UserAchievementRepository(StudyGardenDbContext context) : IUserAchievementRepository
 {
     private readonly StudyGardenDbContext _context = context;
     
+    /// <summary>
+    /// Создание сущности UserAchievement
+    /// </summary>
+    /// <param name="achievement"></param>
+    /// <returns></returns>
     public async Task<int> Create(UserAchievement achievement)
     {
         try
@@ -27,6 +32,11 @@ public class UserAchievementRepository(StudyGardenDbContext context) : IReposito
         }
     }
 
+    /// <summary>
+    /// Обновление существующей сущности UserAchievement
+    /// </summary>
+    /// <param name="achievement"></param>
+    /// <returns></returns>
     public async Task<int> Update(UserAchievement achievement)
     {
         await _context.UserAchievements
@@ -36,6 +46,25 @@ public class UserAchievementRepository(StudyGardenDbContext context) : IReposito
         return achievement.ID;
     }
 
+    /// <summary>
+    /// Поиск всех сущностей UserAchievement с указанным ID сущности Achievement
+    /// </summary>
+    /// <param name="achievementId"></param>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public async Task<List<UserAchievement>> GetByAchivementID(int achievementId)
+    {
+        return await _context.UserAchievements
+            .Where(achievement => achievement.AchievementID == achievementId)
+            .AsNoTracking()
+            .ToListAsync();
+    }
+
+    /// <summary>
+    /// Поиск сущности UserAchievement по ID и ее удаление
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     public async Task<int> Delete(int id)
     {
         try
@@ -53,6 +82,11 @@ public class UserAchievementRepository(StudyGardenDbContext context) : IReposito
         }
     }
 
+    /// <summary>
+    /// Поиск всех сущностей UserAchievement по указанному ID пользователя
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns></returns>
     public async Task<List<UserAchievement>> GetAll(int userId)
     {
         return await _context.UserAchievements
@@ -61,6 +95,12 @@ public class UserAchievementRepository(StudyGardenDbContext context) : IReposito
             .ToListAsync();
     }
 
+    /// <summary>
+    /// Поиск сущности UserAchievement по ID
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
     public async Task<UserAchievement> Get(int id)
     {
         return await _context.UserAchievements

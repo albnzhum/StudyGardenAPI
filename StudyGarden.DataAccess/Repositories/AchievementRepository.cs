@@ -4,10 +4,15 @@ using StudyGarden.Core.Models;
 
 namespace StudyGarden.DataAccess.Repositories;
 
-public class AchievementRepository(StudyGardenDbContext context) : IRepository<Achievement>
+public class AchievementRepository(StudyGardenDbContext context) : IAchievementRepository
 {
     private readonly StudyGardenDbContext _context = context;
     
+    /// <summary>
+    /// Создание сущности Achievement и добавление в базу данных
+    /// </summary>
+    /// <param name="achievement"></param>
+    /// <returns></returns>
     public async Task<int> Create(Achievement achievement)
     {
         try
@@ -25,7 +30,12 @@ public class AchievementRepository(StudyGardenDbContext context) : IRepository<A
             throw;
         }
     }
-
+    
+    /// <summary>
+    /// Обновление существующей сущности Achievement
+    /// </summary>
+    /// <param name="achievement"></param>
+    /// <returns></returns>
     public async Task<int> Update(Achievement achievement)
     {
         await _context.Achievements
@@ -38,6 +48,25 @@ public class AchievementRepository(StudyGardenDbContext context) : IRepository<A
         return achievement.ID;
     }
 
+    /// <summary>
+    /// Поиск сущности Achievement по ID и получение сущности Plant
+    /// </summary>
+    /// <param name="achievementId"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    public async Task<Plant> GetPlant(int achievementId)
+    {
+        return await _context.Achievements
+            .Where(achievement => achievement.ID == achievementId)
+            .Select(achievement => achievement.Plant)
+            .FirstOrDefaultAsync() ?? throw new InvalidOperationException();
+    }
+
+    /// <summary>
+    /// Удаление сущности Achievement
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     public async Task<int> Delete(int id)
     {
         await _context.Achievements
@@ -47,6 +76,12 @@ public class AchievementRepository(StudyGardenDbContext context) : IRepository<A
         return id;
     }
 
+    /// <summary>
+    /// Получение сущности Achievement по ID
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
     public async Task<Achievement> Get(int id)
     {
         return await _context.Achievements
@@ -54,7 +89,12 @@ public class AchievementRepository(StudyGardenDbContext context) : IRepository<A
             .FirstOrDefaultAsync(achievement => achievement.ID == id) ?? throw new InvalidOperationException();
     }
 
-    public async Task<List<Achievement>> GetAll(int userId)
+    /// <summary>
+    /// Получение всех сущностей Achievement
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns></returns>
+    public async Task<List<Achievement>> GetAll(int userId = default)
     {
         return await _context.Achievements
             .AsNoTracking()

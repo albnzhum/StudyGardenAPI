@@ -12,7 +12,7 @@ public interface IUserService
 
     Task<int> CreateUser(User user);
 
-    Task<int> UpdateUser(int id, string login, string password);
+    Task<int> UpdateUser(User user);
 
     Task<int> DeleteUser(int id);
 }

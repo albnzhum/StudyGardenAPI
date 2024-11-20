@@ -12,6 +12,11 @@ public class UserRepository(StudyGardenDbContext context) : IUserRepository
 {
     private readonly StudyGardenDbContext _context = context;
 
+    /// <summary>
+    /// Создание сущности User и добавление в базу данных
+    /// </summary>
+    /// <param name="user"></param>
+    /// <returns></returns>
     public async Task<int> Create(User user)
     {
         var userEntity = User.Create(user.Login, user.HashedPassword);
@@ -22,6 +27,12 @@ public class UserRepository(StudyGardenDbContext context) : IUserRepository
         return userEntity.user.ID;
     }
 
+    /// <summary>
+    /// Получение сущности User по указанному логину
+    /// </summary>
+    /// <param name="login"></param>
+    /// <returns></returns>
+    /// <exception cref="Exception"></exception>
     public async Task<User> GetByLogin(string login)
     {
         var userEntity = await _context.Users
@@ -30,24 +41,39 @@ public class UserRepository(StudyGardenDbContext context) : IUserRepository
         return userEntity;
     }
 
-    public async Task<List<User>> GetAll()
+    /// <summary>
+    /// Получение всех сущностей User
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns></returns>
+    public async Task<List<User>> GetAll(int userId = default)
     {
         return await _context.Users
             .AsNoTracking()
             .ToListAsync();
     }
 
-    public async Task<int> Update(int id, string login, string password)
+    /// <summary>
+    /// Обновление существующей сущности User
+    /// </summary>
+    /// <param name="newUser"></param>
+    /// <returns></returns>
+    public async Task<int> Update(User newUser)
     {
         await _context.Users
-            .Where(user => user.ID == id)
+            .Where(user => user.ID == newUser.ID)
             .ExecuteUpdateAsync(set => set
-                .SetProperty(user => user.Login, user => login)
-                .SetProperty(user => user.HashedPassword, user => password));
+                .SetProperty(user => user.Login, user => newUser.Login)
+                .SetProperty(user => user.HashedPassword, user => newUser.HashedPassword));
         
-        return id;
+        return newUser.ID;
     }
 
+    /// <summary>
+    /// Поиск сущности User по ID и удаление из базы данных
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     public async Task<int> Delete(int id)
     {
         await _context.Users
@@ -55,5 +81,19 @@ public class UserRepository(StudyGardenDbContext context) : IUserRepository
             .ExecuteDeleteAsync();
 
         return id;
+    }
+
+    /// <summary>
+    /// Поиск сущности User по ID
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    public async Task<User> Get(int id)
+    {
+        return await _context.Users
+            .Where(user => user.ID == id)
+            .AsNoTracking()
+            .FirstOrDefaultAsync() ?? throw new InvalidOperationException();
     }
 }

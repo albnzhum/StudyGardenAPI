@@ -4,7 +4,7 @@ using StudyGarden.Core.Models;
 
 namespace StudyGarden.DataAccess.Repositories;
 
-public class GardenRepository(StudyGardenDbContext context) : IRepository<Garden>
+public class GardenRepository(StudyGardenDbContext context) : IGardenRepository
 {
     private readonly StudyGardenDbContext _context = context;
     

@@ -2,11 +2,7 @@
 
 namespace StudyGarden.Core.Abstractions;
 
-public interface IUserRepository
+public interface IUserRepository : IRepository<User>
 {
-    Task<int> Create(User user);
     Task<User> GetByLogin(string login);
-    Task<List<User>> GetAll();
-    Task<int> Update(int id, string login, string password);
-    Task<int> Delete(int id);
 }

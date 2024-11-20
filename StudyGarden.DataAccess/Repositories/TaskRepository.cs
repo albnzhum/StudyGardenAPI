@@ -4,10 +4,15 @@ using Task = StudyGarden.Core.Models.Task;
 
 namespace StudyGarden.DataAccess.Repositories;
 
-public class TaskRepository(StudyGardenDbContext context) : IRepository<Task>
+public class TaskRepository(StudyGardenDbContext context) : ITaskRepository
 {
     private readonly StudyGardenDbContext _context = context;
     
+    /// <summary>
+    /// Создание сущности Task и добавление ее в базу данных
+    /// </summary>
+    /// <param name="task"></param>
+    /// <returns></returns>
     public async Task<int> Create(Task task)
     {
         try
@@ -27,6 +32,11 @@ public class TaskRepository(StudyGardenDbContext context) : IRepository<Task>
         }
     }
 
+    /// <summary>
+    /// Поиск и обновление сущности Task
+    /// </summary>
+    /// <param name="task"></param>
+    /// <returns></returns>
     public async Task<int> Update(Task task)
     {
         await _context.Tasks
@@ -43,6 +53,11 @@ public class TaskRepository(StudyGardenDbContext context) : IRepository<Task>
         return task.ID;
     }
 
+    /// <summary>
+    /// Поиск сущности Task по ID и удаление из базы данных
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     public async Task<int> Delete(int id)
     {
         try
@@ -60,6 +75,11 @@ public class TaskRepository(StudyGardenDbContext context) : IRepository<Task>
         }
     }
 
+    /// <summary>
+    /// Получение всех сущностей Task
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns></returns>
     public async Task<List<Task>> GetAll(int userId)
     {
         return await _context.Tasks
@@ -68,10 +88,42 @@ public class TaskRepository(StudyGardenDbContext context) : IRepository<Task>
             .ToListAsync();
     }
 
+    /// <summary>
+    /// Поиск и получение сущности Task по ID
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
     public async Task<Task> Get(int id)
     {
         return await _context.Tasks
             .AsNoTracking()
             .FirstOrDefaultAsync(t => t.ID == id) ?? throw new InvalidOperationException();
+    }
+
+    /// <summary>
+    /// Поиск и получение сущностей Task по указанному CategoryID 
+    /// </summary>
+    /// <param name="categoryId"></param>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public async Task<List<Task>> GetByCategoryId(int categoryId)
+    {
+        return await _context.Tasks
+            .Where(task => task.CategoryID == categoryId)
+            .ToListAsync();
+    }
+
+    /// <summary>
+    /// Поиск и получение сущностей Task по указанному PlantID
+    /// </summary>
+    /// <param name="plantId"></param>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public async Task<List<Task>> GetByPlantId(int plantId)
+    {
+        return await _context.Tasks
+            .Where(task => task.PlantID == plantId)
+            .ToListAsync();
     }
 }
