@@ -4,9 +4,9 @@ using StudyGarden.Core.Models;
 
 namespace StudyGarden.Application.Services;
 
-public class UserAchievementService(IRepository<UserAchievement> repository) : IUserAchievementService
+public class UserAchievementService(IUserAchievementRepository repository) : IUserAchievementService
 {
-    private readonly IRepository<UserAchievement> _repository = repository;
+    private readonly IUserAchievementRepository _repository = repository;
     public async Task<int> Create(UserAchievement userAchievement)
     {
         return await _repository.Create(userAchievement);
@@ -30,5 +30,10 @@ public class UserAchievementService(IRepository<UserAchievement> repository) : I
     public async Task<UserAchievement> Get(int id)
     {
         return await _repository.Get(id);
+    }
+
+    public async Task<List<UserAchievement>> GetByAchievementID(int achievementId)
+    {
+        return await _repository.GetByAchivementID(achievementId);
     }
 }

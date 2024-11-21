@@ -1,9 +1,10 @@
-﻿using StudyGarden.Core.Abstractions;
+﻿using StudyGarden.Application.Interfaces.Abstractions;
+using StudyGarden.Core.Abstractions;
 using StudyGarden.Core.Models;
 
 namespace StudyGarden.Application.Interfaces;
 
-public interface IGardenService
+public interface IGardenService : IService<Garden>
 {
     
 }

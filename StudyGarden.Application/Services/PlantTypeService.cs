@@ -4,9 +4,9 @@ using StudyGarden.Core.Models;
 
 namespace StudyGarden.Application.Services;
 
-public class PlantTypeService(IRepository<PlantType> repository) : IPlantTypeService
+public class PlantTypeService(IPlantTypeRepository repository) : IPlantTypeService
 {
-    private readonly IRepository<PlantType> _repository = repository;
+    private readonly IPlantTypeRepository _repository = repository;
     public async Task<int> Create(PlantType plantType)
     {
         return await _repository.Create(plantType);

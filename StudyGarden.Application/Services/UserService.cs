@@ -43,22 +43,27 @@ public class UserService(IPasswordHasher passwordHasher,
         return token;
     }
 
-    public async Task<List<User>> GetAllUsers()
+    public async Task<List<User>> GetAll(int userId = default)
     {
         return await _usersRepository.GetAll();
     }
 
-    public async Task<int> CreateUser(User user)
+    public async Task<User> Get(int id)
+    {
+         return await _usersRepository.Get(id);
+    }
+
+    public async Task<int> Create(User user)
     {
         return await _usersRepository.Create(user);
     }
 
-    public async Task<int> UpdateUser(User user)
+    public async Task<int> Update(User user)
     {
         return await _usersRepository.Update(user);
     }
     
-    public async Task<int> DeleteUser(int id)
+    public async Task<int> Delete(int id)
     {
         return await _usersRepository.Delete(id);
     }

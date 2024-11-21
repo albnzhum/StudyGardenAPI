@@ -4,9 +4,9 @@ using StudyGarden.Core.Models;
 
 namespace StudyGarden.Application.Services;
 
-public class GardenService(IRepository<Garden> repository) : IGardenService
+public class GardenService(IGardenRepository repository) : IGardenService
 {
-    private readonly IRepository<Garden> _repository = repository;
+    private readonly IGardenRepository _repository = repository;
     public async Task<int> Create(Garden garden)
     {
         return await _repository.Create(garden);

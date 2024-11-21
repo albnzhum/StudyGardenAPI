@@ -4,9 +4,9 @@ using StudyGarden.Core.Models;
 
 namespace StudyGarden.Application.Services;
 
-public class AchievementService(IRepository<Achievement> repository) : IAchievementService
+public class AchievementService(IAchievementRepository repository) : IAchievementService
 {
-    private readonly IRepository<Achievement> _repository = repository;
+    private readonly IAchievementRepository _repository = repository;
     public async Task<int> Create(Achievement achievement)
     {
         return await _repository.Create(achievement);
@@ -30,5 +30,10 @@ public class AchievementService(IRepository<Achievement> repository) : IAchievem
     public async Task<Achievement> Get(int id)
     {
         return await _repository.Get(id);
+    }
+
+    public async Task<Plant> GetPlant(int achievementId)
+    {
+        return await _repository.GetPlant(achievementId);
     }
 }

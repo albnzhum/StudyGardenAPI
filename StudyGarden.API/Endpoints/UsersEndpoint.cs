@@ -42,6 +42,6 @@ public static class UsersEndpoint
 
     private static async Task<IResult> Delete(int id, UserService userService, HttpContext context)
     {
-        return Results.Ok(await userService.DeleteUser(id));
+        return Results.Ok(await userService.Delete(id));
     }
 }

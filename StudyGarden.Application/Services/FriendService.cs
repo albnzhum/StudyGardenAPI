@@ -4,9 +4,9 @@ using StudyGarden.Core.Models;
 
 namespace StudyGarden.Application.Services;
 
-public class FriendService(IRepository<Friend> repository) : IFriendService
+public class FriendService(IFriendRepository repository) : IFriendService
 {
-    private readonly IRepository<Friend> _repository = repository;
+    private readonly IFriendRepository _repository = repository;
     public async Task<int> Create(Friend friend)
     {
         return await _repository.Create(friend);

@@ -4,9 +4,9 @@ using StudyGarden.Core.Models;
 
 namespace StudyGarden.Application.Services;
 
-public class UserCategoryService(IRepository<UserCategory> categoryRepository) : IUserCategoryService
+public class UserCategoryService(IUserCategoryRepository categoryRepository) : IUserCategoryService
 {
-    private readonly IRepository<UserCategory> _categoryRepository = categoryRepository;
+    private readonly IUserCategoryRepository _categoryRepository = categoryRepository;
     public async Task<int> Create(UserCategory userCategory)
     {
         return await _categoryRepository.Create(userCategory);
@@ -27,8 +27,13 @@ public class UserCategoryService(IRepository<UserCategory> categoryRepository) :
         return await _categoryRepository.Update(userCategory);
     }
 
-    public async Task<UserCategory> GetById(int id)
+    public async Task<UserCategory> Get(int id)
     {
         return await _categoryRepository.Get(id);
+    }
+
+    public async Task<List<UserCategory>> GetAllByType(int typeId)
+    {
+        return await _categoryRepository.GetAllByType(typeId);
     }
 }

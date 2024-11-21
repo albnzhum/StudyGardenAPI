@@ -1,12 +1,9 @@
-﻿using StudyGarden.Core.Models;
+﻿using StudyGarden.Application.Interfaces.Abstractions;
+using StudyGarden.Core.Models;
 
 namespace StudyGarden.Application.Interfaces;
 
-public interface IUserCategoryService
+public interface IUserCategoryService : IService<UserCategory>
 {
-    Task<int> Create(UserCategory userCategory);
-    Task<List<UserCategory>> GetAll(int userId);
-    Task<int> Delete(int id);
-    Task<int> Update(UserCategory userCategory);
-    Task<UserCategory> GetById(int id);
+    Task<List<UserCategory>> GetAllByType(int typeId);
 }

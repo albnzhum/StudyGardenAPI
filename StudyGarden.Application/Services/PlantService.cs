@@ -4,9 +4,9 @@ using StudyGarden.Core.Models;
 
 namespace StudyGarden.Application.Services;
 
-public class PlantService(IRepository<Plant> repository) : IPlantService
+public class PlantService(IPlantRepository repository) : IPlantService
 {
-    private readonly IRepository<Plant> _repository = repository;
+    private readonly IPlantRepository _repository = repository;
 
     public async Task<int> Create(Plant plant)
     {
@@ -33,8 +33,8 @@ public class PlantService(IRepository<Plant> repository) : IPlantService
         return await _repository.Get(id);
     }
 
-    public async Task<List<Plant>> GetAllByCategoryId(int categoryId)
+    public async Task<List<Plant>> GetPlantsByPlantTypeID(int categoryId)
     {
-        return await _repository.GetAll(0);
+        return await _repository.GetPlantsByPlantTypeID(categoryId);
     }
 }

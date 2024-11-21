@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("StudyGarden.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1421023a4f70cc1afde9da7e7ee8ba6a4b69d270")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+58b81f144a423f54629baa6dc2bbf299a91bed5b")]
 [assembly: System.Reflection.AssemblyProductAttribute("StudyGarden.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("StudyGarden.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
