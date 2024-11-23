@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.CookiePolicy;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,11 +20,11 @@ namespace StudyGarden.API
             var builder = WebApplication.CreateBuilder(args);
             var services = builder.Services;
             var configuration = builder.Configuration;
-
-            services.AddApiAuthentication(configuration);
-            services.AddSwaggerGen();
             
             services.Configure<JwtOptions>(configuration.GetSection(nameof(JwtOptions)));
+            
+            services.AddApiAuthentication(configuration);
+            services.AddSwaggerGen();
             
             builder.Services.AddDbContext<StudyGardenDbContext>(options =>
                 options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -57,6 +59,13 @@ namespace StudyGarden.API
             }
             
             app.UseHttpsRedirection();
+            
+            app.UseCookiePolicy(new CookiePolicyOptions()
+            {
+                MinimumSameSitePolicy = SameSiteMode.Strict,
+                HttpOnly = HttpOnlyPolicy.Always,
+                Secure = CookieSecurePolicy.Always
+            });
             
             app.UseMiddleware<ExceptionHandlingMiddleware>();
             

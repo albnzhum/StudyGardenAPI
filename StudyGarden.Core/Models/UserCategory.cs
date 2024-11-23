@@ -34,6 +34,8 @@ public class UserCategory : IModel
         PlantTypeID = plantTypeId;
         Title = title;
     }
+    
+    private UserCategory() {}
 
     /* Реализация паттерна 'Фабричный метод' в виде статического метода
      * по созданию объекта и возврата ошибки

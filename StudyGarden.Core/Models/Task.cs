@@ -51,6 +51,8 @@ namespace StudyGarden.Core.Models
             CreatedDate = createdDate;
             Status = status;
         }
+        
+        private Task() {}
 
         private Task(string title, [Optional] string description, int userId, int plantId,
             [Optional] int? categoryId, DateTime createdDate, [Optional] DateTime? dueDate, int status, [Optional] int? priority)

@@ -34,6 +34,8 @@ public class UserAchievement : IModel
         AchievementID = achievementId;
         DateEarned = dateEarned;
     }
+    
+    private UserAchievement() {}
 
     /* Реализация паттерна 'Фабричный метод' в виде статического метода
      * по созданию объекта и возврата ошибки

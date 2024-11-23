@@ -34,6 +34,18 @@ public class StudyGardenDbContext(DbContextOptions<StudyGardenDbContext> options
 
         modelBuilder.Entity<Friend>()
             .HasKey(fr => fr.ID);
+        
+        modelBuilder.Entity<Friend>()
+            .HasOne(f => f.User)
+            .WithMany() // Specify the relationship direction if needed (e.g., `.WithMany(u => u.Friends)`).
+            .HasForeignKey(f => f.UserID)
+            .OnDelete(DeleteBehavior.Restrict); 
+        
+        modelBuilder.Entity<Friend>()
+            .HasOne(f => f.FriendFK)
+            .WithMany() // Specify the relationship direction if needed
+            .HasForeignKey(f => f.FriendID)
+            .OnDelete(DeleteBehavior.Restrict);
 
         modelBuilder.Entity<Achievement>()
             .HasKey(a => a.ID);

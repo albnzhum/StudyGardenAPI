@@ -30,6 +30,19 @@ public class Achievement : IModel
         PlantID = plantId;
     }
 
+    private Achievement(int id, string title, int plantId, Plant plant)
+    {
+        ID = id;
+        Title = title;
+        PlantID = plantId;
+        Plant = plant;
+    }
+
+    private Achievement()
+    {
+        
+    }
+
     /* Реализация паттерна 'Фабричный метод' в виде статического метода
      * по созданию объекта и возврата ошибки
      */

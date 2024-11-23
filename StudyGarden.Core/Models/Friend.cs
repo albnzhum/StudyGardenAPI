@@ -34,6 +34,8 @@ public class Friend : IModel
         FriendID = friendId;
         IsAccepted = isAccepted;
     }
+    
+    private Friend() {}
 
     /* Реализация паттерна 'Фабричный метод' в виде статического метода
      * по созданию объекта и возврата ошибки

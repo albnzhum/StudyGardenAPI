@@ -56,6 +56,8 @@ public class Garden : IModel
         PositionY = positionY;
         PositionZ = positionZ;
     }
+    
+    private Garden() {}
 
     /* Реализация паттерна 'Фабричный метод' в виде статического метода
      * по созданию объекта и возврата ошибки

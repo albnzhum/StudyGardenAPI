@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("StudyGarden.Core")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b8b29f33ad8f5c05d3bc471f2cae29d4bbf75577")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a76687ef7f3385f3f9b3e1017a40c33045ea832e")]
 [assembly: System.Reflection.AssemblyProductAttribute("StudyGarden.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("StudyGarden.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

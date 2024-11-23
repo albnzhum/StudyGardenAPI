@@ -27,6 +27,8 @@ public class User : IModel
         Login = login;
         HashedPassword = hashedPassword;
     }
+    
+    private User() {}
 
 /* Реализация паттерна 'Фабричный метод' в виде статического метода
  * по созданию объекта и возврата ошибки
