@@ -19,6 +19,13 @@ public static class ApiExtensions
     {
         app.AddUsersEndpoints();
         app.AddUserCategoryEndpoint();
+        app.AddAchievementEndpoint();
+        app.AddFriendEndpoint();
+        app.AddGardenEndpoint();
+        app.AddPlantEndpoint();
+        app.AddPlantTypeEndpoint();
+        app.AddTaskEndpoint();
+        app.AddUserAchievementEndpoint();
     }
 
     public static void AddScopedServices(this IServiceCollection services)
