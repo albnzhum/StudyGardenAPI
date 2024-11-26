@@ -26,11 +26,11 @@ public static class UsersEndpoint
         return app;
     }
 
-    private static async Task<IResult> GetByID(int id, UserService service)
+    private static async Task<IResult> GetByID([FromBody] LoginUserRequest request, UserService service)
     {
         try
         {
-            var user = await service.Get(id);
+            var user = await service.GetUserID(request.Login, request.Password);
             
             return user == null ? Results.NotFound() : Results.Ok(user);
         }

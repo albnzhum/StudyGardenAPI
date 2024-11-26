@@ -96,4 +96,13 @@ public class UserRepository(StudyGardenDbContext context) : IUserRepository
             .AsNoTracking()
             .FirstOrDefaultAsync() ?? throw new InvalidOperationException();
     }
+
+    public async Task<int> GetUserID(string login, string password)
+    {
+        return await _context.Users
+            .Where(user => user.Login == login && user.HashedPassword == password)
+            .AsNoTracking()
+            .Select(user => user.ID)
+            .FirstOrDefaultAsync();
+    }
 }

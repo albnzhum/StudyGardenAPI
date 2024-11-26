@@ -48,6 +48,11 @@ public class UserService(IPasswordHasher passwordHasher,
         return await _usersRepository.GetAll();
     }
 
+    public async Task<int> GetUserID(string login, string password)
+    {
+        return await _usersRepository.GetUserID(login, password);
+    }
+
     public async Task<User> Get(int id)
     {
          return await _usersRepository.Get(id);
