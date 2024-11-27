@@ -79,7 +79,7 @@ public static class UsersEndpoint
     }
 
     private static async Task<IResult> Register(
-        [FromBody]RegisterUserRequest request,
+        [FromBody] RegisterUserRequest request,
         UserService userService)
     {
         await userService.Register(request.Login, request.Password);
@@ -89,12 +89,11 @@ public static class UsersEndpoint
 
     private static async Task<IResult> Login(
         [FromBody]LoginUserRequest request,
-        UserService userService,
-        HttpContext context)
+        UserService userService)
     {
         var response = await userService.Login(request.Login, request.Password);
 
-        context.Response.Cookies.Append("tasty-cookies", response.Token);
+      //  context.Response.Cookies.Append("tasty-cookies", response.Token);
 
         return Results.Ok(response);
     }

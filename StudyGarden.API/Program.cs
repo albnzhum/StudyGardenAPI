@@ -42,7 +42,7 @@ namespace StudyGarden.API
                 {
                     policy.AllowAnyOrigin();
                     policy.AllowAnyHeader();
-                    policy.AllowAnyHeader();
+                    policy.AllowAnyMethod();
                 });
             });
             
