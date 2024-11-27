@@ -1,5 +1,4 @@
-﻿using System.Security.Claims;
-using System.Text;
+﻿using System.Text;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,24 +19,9 @@ public static class UsersEndpoint
         app.MapPost("Register", Register);
         app.MapPost("Login", Login);
         app.MapDelete("Delete", Delete);
-        app.MapGet("GetUserByID/{id:int}", GetByID);
         app.MapGet("CheckToken/{token}", CheckToken);
 
         return app;
-    }
-
-    private static async Task<IResult> GetByID([FromBody] LoginUserRequest request, UserService service)
-    {
-        try
-        {
-            var user = await service.GetUserID(request.Login, request.Password);
-            
-            return user == null ? Results.NotFound() : Results.Ok(user);
-        }
-        catch (Exception ex)
-        {
-            return Results.BadRequest(ex);
-        }
     }
 
     private static async Task<IResult> CheckToken(string token, IConfiguration configuration)
@@ -66,13 +50,16 @@ public static class UsersEndpoint
 
             // Распарсим токен, чтобы вручную извлечь userId
             var jwtToken = validatedToken as System.IdentityModel.Tokens.Jwt.JwtSecurityToken;
+            
+            Console.WriteLine(jwtToken);
+            
             if (jwtToken == null)
             {
                 return Results.BadRequest(new { Message = "Невалидный формат токена" });
             }
 
             // Получаем userId из полезной нагрузки токена (claim 'sub' или другой)
-            var userId = jwtToken.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
+            var userId = jwtToken.Claims.FirstOrDefault(c => c.Type == "userId")?.Value;
             if (!string.IsNullOrEmpty(userId))
             {
                 return Results.Ok(new
@@ -105,11 +92,11 @@ public static class UsersEndpoint
         UserService userService,
         HttpContext context)
     {
-        var token = await userService.Login(request.Login, request.Password);
+        var response = await userService.Login(request.Login, request.Password);
 
-        context.Response.Cookies.Append("tasty-cookies", token);
+        context.Response.Cookies.Append("tasty-cookies", response.Token);
 
-        return Results.Ok(token);
+        return Results.Ok(response);
     }
 
     private static async Task<IResult> Delete(int id, UserService userService, HttpContext context)

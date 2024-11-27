@@ -1,4 +1,5 @@
 ﻿using StudyGarden.Application.Interfaces;
+using StudyGarden.Contracts.UserRequests;
 using StudyGarden.Core.Abstractions;
 using StudyGarden.Core.Models;
 using StudyGarden.Infrastructure.Abstractions;
@@ -27,7 +28,7 @@ public class UserService(IPasswordHasher passwordHasher,
         await _usersRepository.Create(user);
     }
 
-    public async Task<string> Login(string login, string password)
+    public async Task<LoginResponse> Login(string login, string password)
     {
         var user = await _usersRepository.GetByLogin(login);
 
@@ -40,17 +41,12 @@ public class UserService(IPasswordHasher passwordHasher,
 
         var token = _jwtProvider.GenerateToken(user);
 
-        return token;
+        return new LoginResponse(token, user.ID);
     }
 
     public async Task<List<User>> GetAll(int userId = default)
     {
         return await _usersRepository.GetAll();
-    }
-
-    public async Task<int> GetUserID(string login, string password)
-    {
-        return await _usersRepository.GetUserID(login, password);
     }
 
     public async Task<User> Get(int id)
