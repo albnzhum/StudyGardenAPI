@@ -19,25 +19,25 @@ public static class UsersEndpoint
         app.MapPost("Register", Register);
         app.MapPost("Login", Login);
         app.MapDelete("Delete", Delete);
-      //  app.MapGet("CheckToken/{token}", CheckToken);
+        app.MapGet("CheckToken/{token}", CheckToken);
 
         return app;
     }
 
-  /*  private static async Task<IResult> CheckToken(string token, IConfiguration configuration)
+    private static async Task<IResult> CheckToken(string token, IConfiguration configuration)
     {
         if (string.IsNullOrEmpty(token))
         {
             return Results.BadRequest(new { Message = "Токен не предоставлен" });
         }
-        
+
         var jwtOptions = configuration.GetSection(nameof(JwtOptions)).Get<JwtOptions>();
 
         var tokenHandler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
         var validationParameters = new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecretKey)), 
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecretKey)),
             ValidateIssuer = false,
             ValidateAudience = false,
             ClockSkew = TimeSpan.Zero
@@ -50,9 +50,9 @@ public static class UsersEndpoint
 
             // Распарсим токен, чтобы вручную извлечь userId
             var jwtToken = validatedToken as System.IdentityModel.Tokens.Jwt.JwtSecurityToken;
-            
+
             Console.WriteLine(jwtToken);
-            
+
             if (jwtToken == null)
             {
                 return Results.BadRequest(new { Message = "Невалидный формат токена" });
@@ -76,7 +76,7 @@ public static class UsersEndpoint
             // Токен недействителен
             return Results.BadRequest(new { Message = "Токен недействителен или истек" });
         }
-    }*/
+    }
 
     private static async Task<IResult> Register(
         [FromBody] RegisterUserRequest request,
@@ -88,12 +88,12 @@ public static class UsersEndpoint
     }
 
     private static async Task<IResult> Login(
-        [FromBody]LoginUserRequest request,
+        [FromBody] LoginUserRequest request,
         UserService userService)
     {
         var response = await userService.Login(request.Login, request.Password);
 
-      //  context.Response.Cookies.Append("tasty-cookies", response.Token);
+        //  context.Response.Cookies.Append("tasty-cookies", response.Token);
 
         return Results.Ok(response);
     }
