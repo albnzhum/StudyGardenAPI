@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("StudyGarden.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+128600ad2e1040556ecb7705626e2dd4ee31097f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+44e07cfaea3e812e779fbfcfdb6f5129a7d1936b")]
 [assembly: System.Reflection.AssemblyProductAttribute("StudyGarden.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("StudyGarden.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

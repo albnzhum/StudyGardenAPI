@@ -19,12 +19,12 @@ public static class UsersEndpoint
         app.MapPost("Register", Register);
         app.MapPost("Login", Login);
         app.MapDelete("Delete", Delete);
-        app.MapGet("CheckToken/{token}", CheckToken);
+      //  app.MapGet("CheckToken/{token}", CheckToken);
 
         return app;
     }
 
-    private static async Task<IResult> CheckToken(string token, IConfiguration configuration)
+  /*  private static async Task<IResult> CheckToken(string token, IConfiguration configuration)
     {
         if (string.IsNullOrEmpty(token))
         {
@@ -76,7 +76,7 @@ public static class UsersEndpoint
             // Токен недействителен
             return Results.BadRequest(new { Message = "Токен недействителен или истек" });
         }
-    }
+    }*/
 
     private static async Task<IResult> Register(
         [FromBody] RegisterUserRequest request,
