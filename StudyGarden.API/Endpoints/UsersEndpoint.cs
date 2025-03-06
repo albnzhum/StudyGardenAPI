@@ -92,9 +92,7 @@ public static class UsersEndpoint
         UserService userService)
     {
         var response = await userService.Login(request.Login, request.Password);
-
-        //  context.Response.Cookies.Append("tasty-cookies", response.Token);
-
+        
         return Results.Ok(response);
     }
 

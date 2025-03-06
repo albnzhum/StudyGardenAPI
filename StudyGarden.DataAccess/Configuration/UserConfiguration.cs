@@ -10,7 +10,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
     {
         builder.HasKey(u => u.ID);
         
-        builder.Property(u => u.Login)
+        builder.Property(u => u.Username)
             .IsRequired();
 
         builder.Property(u => u.HashedPassword)

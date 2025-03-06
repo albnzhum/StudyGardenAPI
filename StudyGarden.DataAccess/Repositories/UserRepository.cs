@@ -16,7 +16,7 @@ public class UserRepository(StudyGardenDbContext context) : IUserRepository
     /// <returns></returns>
     public async Task<int> Create(User user)
     {
-        var userEntity = User.Create(user.Login, user.HashedPassword);
+        var userEntity = User.Create(user.Username, user.HashedPassword);
 
         await _context.Users.AddAsync(userEntity.user);
         await _context.SaveChangesAsync();
@@ -34,7 +34,7 @@ public class UserRepository(StudyGardenDbContext context) : IUserRepository
     {
         var userEntity = await _context.Users
             .AsNoTracking()
-            .FirstOrDefaultAsync(user => user.Login == login) ?? throw new Exception();
+            .FirstOrDefaultAsync(user => user.Username == login) ?? throw new Exception();
         return userEntity;
     }
 
@@ -60,7 +60,7 @@ public class UserRepository(StudyGardenDbContext context) : IUserRepository
         await _context.Users
             .Where(user => user.ID == newUser.ID)
             .ExecuteUpdateAsync(set => set
-                .SetProperty(user => user.Login, user => newUser.Login)
+                .SetProperty(user => user.Username, user => newUser.Username)
                 .SetProperty(user => user.HashedPassword, user => newUser.HashedPassword));
         
         return newUser.ID;

@@ -15,6 +15,7 @@ public static class TaskEndpoint
     {
         app.MapPost("CreateTask", Create);
         app.MapPut("UpdateTask", Update);
+        app.MapDelete("DeleteTask/{id:int}", Delete);
         app.MapGet("GetAllTasks/{userId:int}", GetAll);
         app.MapGet("GetTask/{id:int}", Get);
         

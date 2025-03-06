@@ -10,21 +10,21 @@ public class User : IModel
     public int ID { get; private set; }
 
     [Required, NotNull] 
-    public string Login { get; private set; }
+    public string Username { get; private set; }
 
     [Required, NotNull] 
     public string HashedPassword { get; private set; }
 
     private User(string login, string hashedPassword)
     {
-        Login = login;
+        Username = login;
         HashedPassword = hashedPassword;
     }
 
     private User(int id, string login, string hashedPassword)
     {
         ID = id;
-        Login = login;
+        Username = login;
         HashedPassword = hashedPassword;
     }
     
